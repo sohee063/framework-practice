@@ -1,25 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
+import TodoTitle from './components/TodoTitle';
+import TodoInput from './components/TodoInput';
+import TodoItems from './components/TodoItems';
 
-function App() {
+const App = () => {
+  const [todoList, setTodoList] = useState([]);
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const getData = async () => {
+    let url = `http://localhost:4001/todo`;
+    let response = await fetch(url);
+    let data = await response.json();
+    setTodoList(data);
+    // axios
+    //   .get(`http://localhost:4001/todo`)
+    //   .then((res) => setTodoList(res.data))
+    //   .catch((err) => console.log(err));
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Body>
+      <TodoTitle />
+      <TodoInput getData={getData} />
+      <TodoItems getData={getData} todoList={todoList} />
+    </Body>
   );
-}
+};
 
+const Body = styled.div`
+  background-color: #f3f4ed;
+  height: 100vh;
+`;
 export default App;
