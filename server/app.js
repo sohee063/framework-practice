@@ -5,8 +5,6 @@ const port = 4001;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-let id = 2;
-
 const todoList = [
   {
     id: 1,
